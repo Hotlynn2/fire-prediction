@@ -1,14 +1,11 @@
-### Copyright (C) 2017 NVIDIA Corporation. All rights reserved. 
-### Licensed under the CC BY-NC-SA 4.0 license (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
 import torch
 import torch.nn as nn
 import functools
 from torch.autograd import Variable
 import numpy as np
 
-###############################################################################
-# Functions
-###############################################################################
+# Run needed functions
+
 def weights_init(m):
     classname = m.__class__.__name__
     if classname.find('Conv') != -1:

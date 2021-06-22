@@ -1,1 +1,2 @@
 -- frames will be dropped in folder names here
+--should match the name used in the jupter cell

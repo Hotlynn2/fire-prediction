@@ -1,5 +1,3 @@
-### Copyright (C) 2017 NVIDIA Corporation. All rights reserved. 
-### Licensed under the CC BY-NC-SA 4.0 license (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
 import torch
 from torch.autograd import Variable
 from collections import OrderedDict
@@ -247,38 +245,7 @@ class UIModel(BaseModel):
                         fake_image = self.single_forward(self.net_input, self.feat_map)
                         fake_image = util.tensor2im(fake_image[:,min_y:max_y,min_x:max_x])
                         self.fake_image.append(fake_image)    
-                    """### To speed up previewing different style results, either crop or downsample the label maps
-                    if instToChange > 1000:
-                        (min_y, min_x, max_y, max_x) = self.crop                                                
-                        ### crop                                                
-                        _, _, h, w = self.net_input.size()
-                        offset = 512
-                        y_start, x_start = max(0, min_y-offset), max(0, min_x-offset)
-                        y_end, x_end = min(h, (max_y + offset)), min(w, (max_x + offset))
-                        y_region = slice(y_start, y_start+(y_end-y_start)//16*16)
-                        x_region = slice(x_start, x_start+(x_end-x_start)//16*16)
-                        net_input = self.net_input[:,:,y_region,x_region]                    
-                        for cluster_idx in range(self.opt.multiple_output):  
-                            self.set_features(idx, self.feat, cluster_idx)
-                            fake_image = self.single_forward(net_input, self.feat_map[:,:,y_region,x_region])                            
-                            fake_image = util.tensor2im(fake_image[:,min_y-y_start:max_y-y_start,min_x-x_start:max_x-x_start])
-                            self.fake_image.append(fake_image)
-                    else:
-                        ### downsample
-                        (min_y, min_x, max_y, max_x) = [crop//2 for crop in self.crop]                    
-                        net_input = self.net_input[:,:,::2,::2]                    
-                        size = net_input.size()
-                        net_input_batch = net_input.expand(self.opt.multiple_output, size[1], size[2], size[3])             
-                        for cluster_idx in range(self.opt.multiple_output):  
-                            self.set_features(idx, self.feat, cluster_idx)
-                            feat_map = self.feat_map[:,:,::2,::2]
-                            if cluster_idx == 0:
-                                feat_map_batch = feat_map
-                            else:
-                                feat_map_batch = torch.cat((feat_map_batch, feat_map), dim=0)
-                        fake_image_batch = self.single_forward(net_input_batch, feat_map_batch)
-                        for i in range(self.opt.multiple_output):
-                            self.fake_image.append(util.tensor2im(fake_image_batch[i,:,min_y:max_y,min_x:max_x]))"""
+                
                                         
                 else:
                     self.set_features(idx, self.feat, style_id)
